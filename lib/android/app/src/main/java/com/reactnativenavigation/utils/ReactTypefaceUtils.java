@@ -28,12 +28,13 @@ public class ReactTypefaceUtils {
   public static final int UNSET = -1;
 
   public static int parseFontWeight(@Nullable String fontWeightString) {
-    int fontWeightNumeric =
-        fontWeightString != null ? parseNumericFontWeight(fontWeightString) : UNSET;
+    int fontWeightNumeric = fontWeightString != null ? parseNumericFontWeight(fontWeightString) : UNSET;
     int fontWeight = fontWeightNumeric != UNSET ? fontWeightNumeric : Typeface.NORMAL;
 
-    if (fontWeight == 700 || "bold".equals(fontWeightString)) fontWeight = Typeface.BOLD;
-    else if (fontWeight == 400 || "normal".equals(fontWeightString)) fontWeight = Typeface.NORMAL;
+    if (fontWeight == 700 || "bold".equals(fontWeightString))
+      fontWeight = Typeface.BOLD;
+    else if (fontWeight == 400 || "normal".equals(fontWeightString))
+      fontWeight = Typeface.NORMAL;
 
     return fontWeight;
   }
@@ -109,7 +110,8 @@ public class ReactTypefaceUtils {
     if (family != null) {
       typeface = ReactFontManager.getInstance().getTypeface(family, want, weight, assetManager);
     } else if (typeface != null) {
-      // TODO(t9055065): Fix custom fonts getting applied to text children with different style
+      // TODO(t9055065): Fix custom fonts getting applied to text children with
+      // different style
       typeface = Typeface.create(typeface, want);
     }
 
@@ -121,16 +123,18 @@ public class ReactTypefaceUtils {
   }
 
   /**
-   * Return -1 if the input string is not a valid numeric fontWeight (100, 200, ..., 900), otherwise
+   * Return -1 if the input string is not a valid numeric fontWeight (100, 200,
+   * ..., 900), otherwise
    * return the weight.
    */
   private static int parseNumericFontWeight(String fontWeightString) {
-    // This should be much faster than using regex to verify input and Integer.parseInt
+    // This should be much faster than using regex to verify input and
+    // Integer.parseInt
     return fontWeightString.length() == 3
-            && fontWeightString.endsWith("00")
-            && fontWeightString.charAt(0) <= '9'
-            && fontWeightString.charAt(0) >= '1'
-        ? 100 * (fontWeightString.charAt(0) - '0')
-        : UNSET;
+        && fontWeightString.endsWith("00")
+        && fontWeightString.charAt(0) <= '9'
+        && fontWeightString.charAt(0) >= '1'
+            ? 100 * (fontWeightString.charAt(0) - '0')
+            : UNSET;
   }
 }
