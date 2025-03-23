@@ -1,19 +1,18 @@
 package com.reactnativenavigation.viewcontrollers.viewcontroller
 
-import android.annotation.SuppressLint
 import com.facebook.react.ReactInstanceManager
+import com.facebook.react.bridge.ReactContext
 import com.facebook.react.modules.i18nmanager.I18nUtil
 import com.reactnativenavigation.options.Options
 
 class LayoutDirectionApplier {
-    @SuppressLint("WrongConstant")
-    fun apply(root: ViewController<*>, options: Options) {
-        val currentContext = root.view?.context ?: return
-
-        if (options.layout.direction.hasValue()) {
+    fun apply(root: ViewController<*>, options: Options, instanceManager: ReactInstanceManager) {
+        // currentReactContext'in null olup olmadığını kontrol ediyoruz
+        val reactContext = instanceManager.currentReactContext as? ReactContext
+        if (options.layout.direction.hasValue() && reactContext != null) {
             root.activity.window.decorView.layoutDirection = options.layout.direction.get()
-            I18nUtil.instance.allowRTL(currentContext, options.layout.direction.isRtl)
-            I18nUtil.instance.forceRTL(currentContext, options.layout.direction.isRtl)
+            I18nUtil.getInstance().allowRTL(reactContext, options.layout.direction.isRtl)
+            I18nUtil.getInstance().forceRTL(reactContext, options.layout.direction.isRtl)
         }
     }
 }
